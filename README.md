@@ -47,7 +47,7 @@ In order to run this project, you need to:
 ```
 * Download the Source code and run OR go to GitHub Repository, get the URL and input: 
 ```bash
-  git clone <paste the URL here>
+  git clone <(https://github.com/laryssacoe/Flask-web-app-with-IoT-integration.git)>
 ```
 
 ### Libraries needed 
