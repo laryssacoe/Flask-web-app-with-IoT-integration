@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Streaming</title>
+
+	<style>
+		body {
+    		background: #DAE28B; /* styles the background yellow */
+		}
+	</style>
+
+	<!-- initiates the code in Javascript, which will define the functions and associate the Blynk platform with button command -->
+	<script>
+		// defines the function that turns the light on in IoT integration
+		function turnLightOn() {
+			// uses XML Http and the GET request to update data from the blink server API and make value of light = 1
+			var xhttp = new XMLHttpRequest();
+			xhttp.open("GET", "https://blynk.cloud/external/api/update?token=9htotNtrt1lrBSfxk8gwZNA5S8iMlMkY&v0=1", true);
+			// sends new value
+			xhttp.send();
+			// calls the update light status function to automatically change the status to 1 or 'on'
+			updateLightStatus();
+		}
+
+		// defines the function that turns light off in IoT integration
+		function turnLightOff() {
+			var xhttp = new XMLHttpRequest();
+			// uses XML Http and the GET request to update data from the blynk server API and make value of light = 0
+			xhttp.open("GET", "https://blynk.cloud/external/api/update?token=9htotNtrt1lrBSfxk8gwZNA5S8iMlMkY&v0=0", true);
+			// sends the new value
+			xhttp.send();
+			// calls the update light status function to automatically change the status to 0 or 'off'
+			updateLightStatus();
+		}
+
+		// defines the function that will update constantly and display the status of the light
+		function updateLightStatus() {
+
+		// uses XML Http to get the new request of data from the Blynk API server to update light status
+        var xhttp = new XMLHttpRequest();
+
+        // defines a function that will only be called by the change of light state in the XMLHttp request and display its status
+        xhttp.onreadystatechange = function() { // calls the function upon change using "xhttp.onreadystate" property of XML HTTP
+
+        	// checks if the "readystate" xmlhttp property is done (4) and the request of data was successful (200)
+            if (this.readyState == 4 && this.status == 200) {
+
+            	// if so, assigns the variable response to a response text that will be used to display status
+            	var responseText = this.responseText;
+
+            	// checks the status of the light by the response text, if the response is '1', attatches the value "on" to the string lightStatus
+            	// if not, assigns the value "off" to be displayed
+                var lightStatus = responseText == "1" ? "on" : "off";
+
+                // attributes an identifier to the HTML element light-status that will return the content setup
+                // in this case, the content is the status of the light in string plus the actual value define in variable "lightStatus"
+                document.getElementById("light-status").innerHTML = "The status of the light is currently " + lightStatus + "!";
+
+				// checks the status of the light to assign icon id to the specific png link
+                if (lightStatus == "on") {
+                	document.getElementById("light-icon").src = "https://img.icons8.com/?size=100&id=20183&format=png";
+            	} else {
+                	document.getElementById("light-icon").src = "https://img.icons8.com/?size=100&id=TqND1hw7YrXX&format=png";
+            	}
+            }
+        };
+
+        // initializes a new GET request of data to the Blynk server and sends the request to get the new value of the light
+        xhttp.open("GET", "https://blynk.cloud/external/api/get?token=9htotNtrt1lrBSfxk8gwZNA5S8iMlMkY&v0", true);
+        xhttp.send();
+    }
+    // closes the code in script to initialize HTML formatting
+	</script>
+
+</head>
+<body onload="updateLightStatus()">
+	<h1 style="color: #B977D8;">Streaming Page</h1>
+	<div style="display: flex;">
+
+		<!-- sets up the space in which the robot video would theoretically happen -->
+		<div style="width: 60%; height: 400px; background-color: black; color: white; display: flex; justify-content: center; align-items: center;">
+			<h2>Robot video</h2>
+		</div>
+
+		<!-- displays the status of the light in an icon that will be ** when light is on and ** when off -->
+		<!-- the light icon alternates between the png links defined in the script code -->
+		<div style="width: 40%; color: white; display: flex; justify-content: center; align-items: center; margin-left: auto;">
+			<img id="light-icon" src="light-off.png" alt="Light Icon" style="max-width: 300px; max-height: 300px;" />
+		</div>
+	</div>
+
+	<!-- defines the space in which the commands will take place in the center of the page below the black square -->
+	<div style="width: 60%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+  		<h2 style="color: #B977D8;">Commands</h2>
+
+		<!-- sets up the buttons to be clicked that will call the turn light on and off functions and change light status -->
+  		<button onclick="turnLightOn()">Turn Light On</button>
+  		<button onclick="turnLightOff()">Turn Light Off</button>
+
+		<!-- displays the status of the light by calling the id value of "light-status" defined in get element function previously -->
+  		<p id="light-status">The status of the light is currently unknown!</p>
+	</div>
+</body>
+</html>
