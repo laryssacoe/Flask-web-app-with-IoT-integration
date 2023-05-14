@@ -175,7 +175,7 @@ This image exemplifies how the Flask web app connects to the IoT platform.
 
 In this video, I showcase the syncronized functionality of the web server connected with the platform IoT, which could be connected to a physical device, but, in this case, it simulates one.
 
-Link to video: https://youtu.be/Vu9XOczp5yk
+Link to video: https://youtu.be/5YHttbBpcvU
 
 
 ## References
